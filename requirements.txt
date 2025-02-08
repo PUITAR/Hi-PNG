@@ -1,0 +1,6 @@
+scikit-learn
+pybind11
+psutil
+implicit
+sentence-transformers
+opencv-python

@@ -1,0 +1,7 @@
+data/
+bin/
+build/
+__pycache__/
+perf/
+figure/
+*.so
