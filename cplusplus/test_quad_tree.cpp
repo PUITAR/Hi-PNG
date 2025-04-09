@@ -8,7 +8,7 @@ using namespace std;
 using namespace anns::interval;
 using namespace anns;
 
-using interval::QuadTree;
+using interval::HiPNG;
 
 using data_t = float;
 
@@ -24,7 +24,7 @@ int main(int argc, char **argv)
   std::cout << "leaf-size: ";
   float ls;
   cin >> ls;
-  QuadTree<data_t, metrics::euclidean> index("hnsw", {ls, 32, 128});
+  HiPNG<data_t, metrics::euclidean> index("hnsw", {ls, 32, 128});
 
   index.set_num_threads(48);
   timer.start();

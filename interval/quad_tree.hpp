@@ -12,7 +12,7 @@ namespace anns
   {
 
     template <typename data_t, float (*distance)(const data_t *, const data_t *, size_t)>
-    class QuadTree : public IntervalBaseIndex<data_t>
+    class HiPNG : public IntervalBaseIndex<data_t>
     {
 #define PFG interval::PostFilterGraph<data_t, distance>
     protected:
@@ -37,7 +37,7 @@ namespace anns
       size_t num_threads_{1};           // number of threads
 
     public:
-      QuadTree(const std::string &name, const std::vector<float> &params) : name_(name)
+      HiPNG(const std::string &name, const std::vector<float> &params) : name_(name)
       {
         ls_ = params[0];
         // max_it_construction_ = params[1];

@@ -60,16 +60,16 @@ namespace pyba
         .def("index_size", &PostFilterGraph::index_size, "get the bytes of the index")
         .def("get_comparison_and_clear", &PostFilterGraph::get_comparison_and_clear, "get the number of comparisons and clear the counter");
 
-    /****************************** QuadTree Interfaces ******************************/
-    py::class_<QuadTree>(m, "QuadTree")
-        .def(py::init<const std::string &, const std::vector<float> &, const std::string &>(), "create a QuadTree from given parameters",
+    /****************************** HiPNG Interfaces ******************************/
+    py::class_<HiPNG>(m, "HiPNG")
+        .def(py::init<const std::string &, const std::vector<float> &, const std::string &>(), "create a HiPNG from given parameters",
              py::arg("underlying graph type"), py::arg("build parameters {leaf size, underlying graph parameters...}"), py::arg("vector space metric"))
-        .def("build", &QuadTree::build, "build the graph from given data",
+        .def("build", &HiPNG::build, "build the graph from given data",
              py::arg("base dataset"), py::arg("interval set"), py::arg("number of threads"))
-        .def("search", &QuadTree::search, "search k-ANNS with interval filtering",
+        .def("search", &HiPNG::search, "search k-ANNS with interval filtering",
              py::arg("query vector"), py::arg("interval set of the query"), py::arg("k"), py::arg("query parameters"), py::arg("number of threads"))
-        .def("index_size", &QuadTree::index_size, "get the bytes of the index")
-        .def("get_comparison_and_clear", &QuadTree::get_comparison_and_clear, "get the number of comparisons and clear the counter");
+        .def("index_size", &HiPNG::index_size, "get the bytes of the index")
+        .def("get_comparison_and_clear", &HiPNG::get_comparison_and_clear, "get the number of comparisons and clear the counter");
   }
 
 }

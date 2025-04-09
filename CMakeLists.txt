@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-cmake_policy(SET CMP0148 OLD)
+# cmake_policy(SET CMP0148 OLD)
 
 project(iANNS C CXX)
 

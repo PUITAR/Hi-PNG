@@ -9,22 +9,22 @@ using namespace anns;
 namespace pyba
 {
 
-  class QuadTree
+  class HiPNG
   {
   private:
     std::unique_ptr<interval::IntervalBaseIndex<float>> index_{nullptr};
 
   public:
-    QuadTree(const std::string &underlying_graph, const std::vector<float> &params, const std::string &metric)
+    HiPNG(const std::string &underlying_graph, const std::vector<float> &params, const std::string &metric)
     {
       if (metric == "euclidean")
-        index_ = std::make_unique<interval::QuadTree<float, metrics::euclidean>>(underlying_graph, params);
+        index_ = std::make_unique<interval::HiPNG<float, metrics::euclidean>>(underlying_graph, params);
       else if (metric == "angular")
-        index_ = std::make_unique<interval::QuadTree<float, metrics::cosine>>(underlying_graph, params);
+        index_ = std::make_unique<interval::HiPNG<float, metrics::cosine>>(underlying_graph, params);
       else if (metric == "dot")
-        index_ = std::make_unique<interval::QuadTree<float, metrics::inner_product>>(underlying_graph, params);
+        index_ = std::make_unique<interval::HiPNG<float, metrics::inner_product>>(underlying_graph, params);
       else if (metric == "hamming")
-        index_ = std::make_unique<interval::QuadTree<float, metrics::hamming>>(underlying_graph, params);
+        index_ = std::make_unique<interval::HiPNG<float, metrics::hamming>>(underlying_graph, params);
       else
         throw std::runtime_error("Unsupported metric");
     }

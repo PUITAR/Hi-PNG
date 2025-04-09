@@ -1,4 +1,4 @@
-from anns import DataSet, IntervalSet, GroundTruth, Timer, QuadTree, PostFilterGraph
+from anns import DataSet, IntervalSet, GroundTruth, Timer, HiPNG, PostFilterGraph
 import os
 
 
@@ -47,7 +47,7 @@ class GridSearch:
     if "pf" in self.name:
       self.model = PostFilterGraph(self.underlying_graph, bp, self.metric)
     elif "qt" in self.name:
-      self.model = QuadTree(self.underlying_graph, bp, self.metric)
+      self.model = HiPNG(self.underlying_graph, bp, self.metric)
     else:
       raise ValueError(f"Unknown index type: {self.name}")
     self.model.build(self.base_data, self.base_attrs, num_threads) 

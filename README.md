@@ -29,6 +29,7 @@ All dataset should be in the format of `fvecs`, `ivecs`, `fbin` and `ibin`.
 You don't need to worry about any reproducibility issues with the data, as you can use the ``create_dataset.py`` script to generate the dataset.
 
 ```shell
+mkdir -p data
 python create_dataset.py -h
 python create_dataset.py --dataset sift-128-euclidean \
   --train_distr uniform --train_left 0 --train_right 1000 \

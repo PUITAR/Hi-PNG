@@ -496,6 +496,105 @@ def us_stock(out_fn):
     fvecs_save("data/us-stock-384-euclidean..train.itv", X_train[:,-2:])
     fvecs_save("data/us-stock-384-euclidean..test.itv", X_test[:,-2:])
 
+def covid19_epitope_prediction(out_fn):
+    import zipfile
+    import numpy as np
+    import pandas as pd
+    import os
+    from sklearn.preprocessing import MinMaxScaler
+    from sklearn.feature_extraction.text import CountVectorizer
+    from sklearn.utils import resample
+
+    # Average length of an amino acid in nanometers
+    AA_TO_NM = 0.34
+
+    local_fn = "data/covid19_epitope_prediction.zip"
+    url = "https://www.kaggle.com/api/v1/datasets/download/futurecorporation/epitope-prediction"
+    download(url, local_fn)
+    data_dir = 'data/covid19_epitope_prediction'
+    with zipfile.ZipFile(local_fn, 'r') as zf:
+        zf.extract('input_bcell.csv', data_dir)
+        zf.extract('input_sars.csv', data_dir)
+
+    train = pd.read_csv(os.path.join(data_dir, 'input_bcell.csv'))
+    test = pd.read_csv(os.path.join(data_dir, 'input_sars.csv'))
+
+    data_fields = [
+        "parent_protein_id",    # parent protein ID
+        "protein_seq",          # parent protein sequence
+        "peptide_seq",          # peptide sequence
+        "chou_fasman",          # peptide feature, β turn
+        "emini",                # peptide feature, relative surface accessibility
+        "kolaskar_tongaonkar",  # peptide feature, antigenicity
+        "parker",               # peptide feature, hydrophobicity
+        "isoelectric_point",    # protein feature
+        "aromaticity",          # protein feature
+        "hydrophobicity",       # protein feature
+        "stability"             # protein feature
+    ]
+
+    # Convert amino acid positions to nanometer positions with random gaps for protein folding errors
+    np.random.seed(42)  # For reproducibility
+    gap_range = 1e5  # nm
+    train['start_position_nm'] = train['start_position'] * AA_TO_NM + np.random.uniform(-gap_range, 0, size=len(train))
+    train['end_position_nm'] = train['end_position'] * AA_TO_NM + np.random.uniform(0, gap_range, size=len(train))
+    test['start_position_nm'] = test['start_position'] * AA_TO_NM + np.random.uniform(-gap_range, 0, size=len(test))
+    test['end_position_nm'] = test['end_position'] * AA_TO_NM + np.random.uniform(0, gap_range, size=len(test))
+
+    interval_fields = [
+        "start_position_nm",   # start position of peptide in nm
+        "end_position_nm",      # end position of peptide in nm
+    ]
+
+    # Function to encode protein sequences
+    def encode_protein_sequences(sequences, k=3, dim=256):
+        from sklearn.feature_extraction.text import HashingVectorizer
+        vectorizer = HashingVectorizer(analyzer='char', ngram_range=(k, k), n_features=dim)
+        encoded = vectorizer.transform(sequences)
+        return encoded.toarray(), vectorizer
+
+    # Encode protein sequences
+    protein_encoder = None
+    train_protein_encoded, protein_encoder = encode_protein_sequences(train['protein_seq'])
+    test_protein_encoded = protein_encoder.transform(test['protein_seq']).toarray()
+
+    # Encode peptide sequences
+    train_peptide_encoded = protein_encoder.transform(train['peptide_seq']).toarray()
+    test_peptide_encoded = protein_encoder.transform(test['peptide_seq']).toarray()
+
+    # Get other numerical features
+    train_other = train[data_fields[3:]]
+    test_other = test[data_fields[3:]]
+
+    # Combine all features
+    train_data = np.concatenate([
+        train_protein_encoded,
+        train_peptide_encoded,
+        train_other
+    ], axis=1)
+    test_data = np.concatenate([
+        test_protein_encoded,
+        test_peptide_encoded,
+        test_other
+    ], axis=1)
+
+    train_itv = train[interval_fields].values
+    test_itv = test[interval_fields].values
+
+    # Scale numerical features
+    scaler = MinMaxScaler()
+    train_data = scaler.fit_transform(train_data)
+    test_data = scaler.transform(test_data)
+
+    # Save the expanded data
+    from data_collect.binary import fvecs_save
+    print(train_data.shape, test_data.shape, train_itv.shape, test_itv.shape)
+    fvecs_save("data/covid19-epitope-prediction-euclidean.train.fvecs", train_data)
+    fvecs_save("data/covid19-epitope-prediction-euclidean.test.fvecs", test_data)
+    fvecs_save("data/covid19-epitope-prediction-euclidean..train.itv", train_itv)
+    fvecs_save("data/covid19-epitope-prediction-euclidean..test.itv", test_itv)
+    
+
 def ucf_crime(out_fn):
     import zipfile
     local_fn = "data/ucf-crime-dataset.zip"
@@ -561,6 +660,7 @@ DATASETS: Dict[str, Callable[[str], None]] = {
     "sift-256-hamming": lambda out_fn: sift_hamming(out_fn, "sift.hamming.256"),
     "us-stock-384-euclidean": us_stock,
     "ucf-crime-4096-euclidean": ucf_crime,
+    "covid19-epitope-prediction-euclidean": covid19_epitope_prediction
 }
 
 DATASETS.update({

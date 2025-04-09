@@ -4,3 +4,7 @@ psutil
 implicit
 sentence-transformers
 opencv-python
+h5py
+pandas
+numpy
+scikit-learn

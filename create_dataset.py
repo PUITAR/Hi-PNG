@@ -46,8 +46,8 @@ if __name__ == "__main__":
                               Default is 10.""")
   parser.add_argument("--num_threads", required=False, type=int, default=1,
                       help="""The number of process.""")
-  # parser.add_argument("--test_length", required=False, type=float, default=-1, 
-  #                     help="""max length of the test interval""")
+
+  RF_ANNS = False
 
   args = parser.parse_args()
 
@@ -63,7 +63,7 @@ if __name__ == "__main__":
   # fn = get_dataset_fn(args.dataset)
   # DATASETS[args.dataset](fn)
 
-  if args.dataset == 'us-stock-384-euclidean':
+  if args.dataset in ['us-stock-384-euclidean', 'covid19-epitope-prediction-euclidean']:
     print("real world dataset")
     train_dn = test_dn = ""
   else:
@@ -79,13 +79,32 @@ if __name__ == "__main__":
 
   if not os.path.exists(base_itv_file):
     print("Generating Train Interval...")
-    fvecs_save(base_itv_file, create_interval(fvecs_read(base_file).shape[0], args.train_distr, left=args.train_left, right=args.train_right, mean=args.train_mean, std=args.train_std, lam=args.train_lam))
+    fvecs_save(base_itv_file, 
+               create_interval(
+                 fvecs_read(
+                   base_file).shape[0], 
+                   args.train_distr, 
+                   left=args.train_left, 
+                   right=args.train_right, 
+                   mean=args.train_mean, 
+                   std=args.train_std, 
+                   lam=args.train_lam,
+                   rf = RF_ANNS))
   else:
     print("Train interval already exist.")
 
   if not os.path.exists(test_itv_file):
     print("Generating Test Interval...")
-    fvecs_save(test_itv_file, create_interval(fvecs_read(test_file).shape[0], args.test_distr, left=args.test_left, right=args.test_right, mean=args.test_mean, std=args.test_std, lam=args.test_lam))
+    fvecs_save(test_itv_file, 
+               create_interval(
+                 fvecs_read(test_file).shape[0], 
+                 args.test_distr, 
+                 left=args.test_left, 
+                 right=args.test_right, 
+                 mean=args.test_mean, 
+                 std=args.test_std, 
+                 lam=args.test_lam, 
+                 rf=False))
   else:
     print("Test interval already exist.")
 

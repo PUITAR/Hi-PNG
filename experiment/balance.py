@@ -37,14 +37,14 @@ def overall(dataset, indice):
   # PosterFilter Query Parameters
   # pf_qp = [[ef, iter] for ef in range(10, 256, 10) for iter in range(1, 10, 2)]
   pf_qp = [[ef, iter] for ef in range(10, 200, 20) for iter in range(1, 10, 2)]
-  # QuadTree Build Parameters
+  # HiPNG Build Parameters
   qt_bp = {
     'hnsw': [[ls, M, efc] for ls in [10000] for M in [32] for efc in [128]],
     'vamana': [[ls, R, efc, alpha] for ls in [10000] for R in [32] for efc in [64] for alpha in [1.2]],
     'nsg': [[ls, R, efc] for ls in [10000] for R in [32] for efc in [128]],
     'hcnng': [[ls, T, Ls, s] for ls in [10000] for T in [15] for Ls in [1000] for s in [3]]
   }[indice]
-  # QuadTree Query Parameters
+  # HiPNG Query Parameters
   qt_qp = [[ef, iter, sim/100] for ef in range(10, 30, 2) for iter in range(1, 10, 2) for sim in range(30, 101, 5)]
   # qt_qp = [[ef, iter, sim/100] for ef in range(10, 30, 4) for iter in range(1, 10, 2) for sim in range(0, 101, 20)]
   
