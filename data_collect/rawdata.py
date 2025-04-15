@@ -637,6 +637,9 @@ def ucf_crime(out_fn):
     write_output(X_train, X_test, out_fn, "euclidean")
 
 
+from .bigann_datasets import Text2Image1B
+
+
 DATASETS: Dict[str, Callable[[str], None]] = {
     "deep-image-96-angular": deep_image,
     "fashion-mnist-784-euclidean": fashion_mnist,
@@ -660,7 +663,8 @@ DATASETS: Dict[str, Callable[[str], None]] = {
     "sift-256-hamming": lambda out_fn: sift_hamming(out_fn, "sift.hamming.256"),
     "us-stock-384-euclidean": us_stock,
     "ucf-crime-4096-euclidean": ucf_crime,
-    "covid19-epitope-prediction-euclidean": covid19_epitope_prediction
+    "covid19-epitope-prediction-euclidean": covid19_epitope_prediction,
+    "text2image-10M": Text2Image1B(10).prepare()
 }
 
 DATASETS.update({
