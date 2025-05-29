@@ -1,5 +1,7 @@
 # *Hi-PNG*: Efficient Interval-Filtering ANNS via Hierarchical Interval Partition Navigating Graph
 
+[![DOI](https://zenodo.org/badge/929221163.svg)](https://doi.org/10.5281/zenodo.15540999)
+
 This is the official implementation of the paper [*Hi-PNG*: Efficient Interval-Filtering ANNS via Hierarchical Interval Partition Navigating Graph](README.md).
 
 ## Requirements
