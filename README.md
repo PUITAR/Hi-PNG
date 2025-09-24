@@ -52,3 +52,22 @@ All experimental sections are corresponding to a code file in ``experiments``.
 | Effect of Partition Point Selection | ``balance.py`` |
 
 ## Reference
+```
+@inproceedings{10.1145/3711896.3736997,
+author = {Yang, Ming and Cai, Yuzheng and Zheng, Weiguo},
+title = {Hi-PNG: Efficient Interval-Filtering ANNS via Hierarchical Interval Partition Navigating Graph},
+year = {2025},
+isbn = {9798400714542},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3711896.3736997},
+doi = {10.1145/3711896.3736997},
+abstract = {Approximate nearest neighbor search (ANNS) is widely used to retrieve similar vectors from high-dimensional data. However, many real-world applications require additional interval filtering based on numerical constraints, such as stock price ranges. In this paper, we introduce interval-filtering ANNS (IF-ANNS), a novel yet general retrieval task where both base and query vectors are associated with numerical intervals. The goal is to retrieve nearest neighbors whose intervals are fully contained within the query interval. To efficiently address this problem, we propose Hierarchical Interval Partitioning Navigating Graph (Hi-PNG), a framework that hierarchically partitions the interval space to efficiently locate the search space, eliminating unnecessary computations and achieving significant speedups. We provide a theoretical analysis of the search space, demonstrating the superiority of our approach. Extensive experiments on eight datasets, including commonly used benchmarks and real-world stock price data, show that Hi-PNG outperforms four state-of-the-art graph-based ANNS baselines, achieving up to 15\texttimes{} acceleration while maintaining high precision. These results highlight Hi-PNG's effectiveness in solving the IF-ANNS problem. All codes and data generation are available at https://github.com/PUITAR/Hi-PNG.git.},
+booktitle = {Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2},
+pages = {3518–3529},
+numpages = {12},
+keywords = {approximate nearest neighbor search, hierarchical interval partition, interval-filtering},
+location = {Toronto ON, Canada},
+series = {KDD '25}
+}
+```
